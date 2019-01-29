@@ -1,4 +1,4 @@
-import { START, SUCCESS } from '../constants';
+import { START, SUCCESS, FAIL } from '../constants';
 
 export default store => next => (action) => {
   const { callApi, type, ...rest } = action;
@@ -17,5 +17,9 @@ export default store => next => (action) => {
       response,
       ...rest,
     }))
-    .catch();
+    .catch(err => next({
+      type: type + FAIL,
+      err,
+      ...rest,
+    }));
 };
